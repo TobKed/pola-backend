@@ -91,7 +91,7 @@ class Attachment(models.Model):
     attachment = models.FileField(
         upload_to="reports/%Y/%m/%d",
         verbose_name=_("File"),
-        storage=S3Boto3Storage(AWS_QUERYSTRING_AUTH=True, bucket_name=settings.AWS_STORAGE_BACKEND_BUCKET_NAME),
+        storage=S3Boto3Storage(querystring_auth=True, bucket_name=settings.AWS_STORAGE_BACKEND_BUCKET_NAME),
     )
 
     @property

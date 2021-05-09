@@ -286,7 +286,7 @@ AWS_ACCESS_KEY_ID = env('POLA_APP_AWS_ACCESS_KEY_ID')  # noqa: F405
 AWS_SECRET_ACCESS_KEY = env('POLA_APP_AWS_SECRET_ACCESS_KEY')  # noqa: F405
 AWS_STORAGE_BUCKET_NAME = env('POLA_APP_AWS_S3_PUBLIC_BUCKET_NAME')  # noqa: F405
 AWS_STORAGE_BACKEND_BUCKET_NAME = env('POLA_APP_AWS_S3_BACKEND_BUCKET_NAME')  # noqa: F405
-AWS_STORAGE_BUCKET_AI_PICS_BUCKET_NAME = env('POLA_APP_AWS_S#_AI_PICS_BUCKET_NAME')  # noqa: F405
+AWS_STORAGE_AI_PICS_BUCKET_NAME = env('POLA_APP_AWS_S3_AI_PICS_BUCKET_NAME')  # noqa: F405
 # TODO See: https://github.com/jschneier/django-storages/issues/47
 # Revert the following and use str after the above-mentioned bug is fixed in
 # either django-storage-redux or boto
@@ -308,5 +308,5 @@ else:
 
 # Static Assets
 # ------------------------
-STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 STATIC_URL = f'http://localhost:9000/static/{AWS_STORAGE_BUCKET_NAME}/'

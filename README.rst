@@ -146,7 +146,7 @@ POLA_APP_AWS_ACCESS_KEY_ID              AWS_ACCESS_KEY_ID                       
 POLA_APP_AWS_SECRET_ACCESS_KEY          AWS_SECRET_ACCESS_KEY                   n/a                                            <zgłasza wyjątek>
 POLA_APP_AWS_S3_PUBLIC_BUCKET_NAME      AWS_STORAGE_BUCKET_NAME                 n/a                                            <zgłasza wyjątek>
 POLA_APP_AWS_S3_BACKEND_BUCKET_NAME     AWS_STORAGE_BACKEND_BUCKET_NAME         n/a                                            <zgłasza wyjątek>
-POLA_APP_AWS_S3_BACKEND_BUCKET_NAME     AWS_STORAGE_AI_PICS_BUCKET_NAME         n/a                                            <zgłasza wyjątek>
+POLA_APP_AWS_S3_AI_PICS_BUCKET_NAME     AWS_STORAGE_AI_PICS_BUCKET_NAME         n/a                                            <zgłasza wyjątek>
 DJANGO_MAILGUN_API_KEY                  MAILGUN_ACCESS_KEY                      n/a                                            <zgłasza wyjątek>
 DJANGO_MAILGUN_SERVER_NAME              MAILGUN_SERVER_NAME                     n/a                                            <zgłasza wyjątek>
 ======================================= ======================================= ============================================== ======================================================================
@@ -188,7 +188,7 @@ Uruchom następujące polecenia, aby wdrożyć projekt w Heroku z wykorzystaniem
     heroku config:set POLA_APP_AWS_SECRET_ACCESS_KEY=YOUR_POLA_APP_AWS_SECRET_ACCESS_KEY_HERE
     heroku config:set POLA_APP_AWS_S3_PUBLIC_BUCKET_NAME=YOUR_POLA_APP_AWS_S3_PUBLIC_BUCKET_NAME_HERE
     heroku config:set POLA_APP_AWS_S3_BACKEND_BUCKET_NAME=YOUR_POLA_APP_AWS_S3_BACKEND_BUCKET_NAME_HERE
-    heroku config:set POLA_APP_AWS_S3_BACKEND_BUCKET_NAME=YOUR_POLA_APP_AWS_S3_BACKEND_BUCKET_NAME_HERE
+    heroku config:set POLA_APP_AWS_S3_AI_PICS_BUCKET_NAME=YOUR_POLA_APP_AWS_S3_AI_PICS_BUCKET_NAME_HERE
 
     heroku config:set DJANGO_MAILGUN_SERVER_NAME=YOUR_MALGUN_SERVER
     heroku config:set DJANGO_MAILGUN_API_KEY=YOUR_MAILGUN_API_KEY
