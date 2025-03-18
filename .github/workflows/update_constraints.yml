@@ -111,4 +111,8 @@ jobs:
           # by the push event when the push is done by the action
           body: |
             Constraints files updated.
+
+            To trigger the CI build, write the message:
+            ```
             @Mergifyio rebase
+            ```
