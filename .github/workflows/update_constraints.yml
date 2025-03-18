@@ -72,6 +72,9 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
           repository: ${{ github.event.pull_request.head.repo.full_name }}
+      # Checkout again to create a branch. This is needed because the previous checkout is detached.
+      - name: "Checkout Pull Request"
+        run: gh pr checkout "${ISSUE_NUMBER}"
       - name: "Login to GitHub Container Registry"
         run: ./scripts/docker_login_github.py
       - name: "Copy .env.example to .env"
@@ -98,7 +101,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add ./dependencies/
           git commit -m "Update constraints file"
-          git push origin HEAD:refs/pull/${{ github.event.issue.number }}/head
+          git push origin
 
       - name: "Create a comment in PR"
         uses: peter-evans/create-or-update-comment@v1
