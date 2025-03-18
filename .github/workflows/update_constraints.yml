@@ -98,7 +98,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add ./dependencies/
           git commit -m "Update constraints file"
-          git push origin
+          git push origin HEAD:refs/pull/${{ github.event.issue.number }}/head
 
       - name: "Create a comment in PR"
         uses: peter-evans/create-or-update-comment@v1
