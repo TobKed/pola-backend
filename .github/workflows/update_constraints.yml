@@ -107,4 +107,8 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
-          body: 'Constraints files updated.'
+          # Mergifyio is needed to trigger CI build as it is not triggered
+          # by the push event when the push is done by the action
+          body: |
+            Constraints files updated.
+            @Mergifyio rebase
