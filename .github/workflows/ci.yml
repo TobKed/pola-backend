@@ -173,7 +173,6 @@ jobs:
         run: |
           APP_NAME="$(./scripts/detect_app_name.py)";
           echo "APP_NAME=${APP_NAME}"
-          echo "IMAGE_TAG=${APP_NAME}" >> $GITHUB_ENV;
           echo "HEROKU_APP=${APP_NAME}" >> $GITHUB_ENV;
           echo "HEROKU_DOMAIN=$(./scripts/fetch_domain.py "${APP_NAME}")" >> $GITHUB_ENV;
       - uses: chrnorm/deployment-action@releases/v1
