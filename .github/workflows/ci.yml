@@ -45,7 +45,7 @@ jobs:
       - name: "Verify CI image"
         run: ./scripts/manage_image.py verify --image-type ci
       - name: Pull images
-        run: ./scripts/pull_images.py
+        run: PYTHONUNBUFFERED=1 ./scripts/pull_images.py
       - name: "Run tests"
         run: ./run_test.sh
       - name: "Check missing migrations"
@@ -111,7 +111,7 @@ jobs:
       - name: "Verify BI image"
         run: ./scripts/manage_image.py verify --image-type bi
       - name: Pull images
-        run: ./scripts/pull_images.py
+        run: PYTHONUNBUFFERED=1 ./scripts/pull_images.py
       - run: docker compose config
       - run: docker compose up -d
       - run: ./run_manage.sh migrate

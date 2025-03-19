@@ -34,7 +34,7 @@ def github_action_group(name: str) -> None:
 
 def main():
     image_names = subprocess.check_output(['docker', 'compose', 'config', '--images']).decode().strip().splitlines()
-    image_names = [image_name for image_name in image_names if "pola-backend" not in image_name]
+    image_names = [image_name for image_name in image_names if "pola" not in image_name]
     for image_name in image_names:
         with github_action_group(f"Pulling {image_name!r} image"):
             subprocess.run(['docker', 'pull', image_name], check=True)
