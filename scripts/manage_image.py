@@ -334,10 +334,10 @@ def build_image(image_type, env, prepare_buildx_cache=False):
     # Tag lokalny
     run_command(["docker", "tag", f"{image_name}:{image_tag}", config["local_image_name"]])
 
-    logger.info("Obraz zbudowany pomyślnie.", image_name, image_tag)
+    logger.info("Obraz zbudowany pomyślnie.")
     logger.info("Dostępne tagi: ")
-    for tag in [f"{image_name}:{image_tag}", config["local_image_name"]]:
-        logger.info("  %s:%s", image_name, tag)
+    for full_image_name in [f"{image_name}:{image_tag}", f'{config["local_image_name"]}']:
+        logger.info("  %s", full_image_name)
 
 
 def verify_image(image_type, env):

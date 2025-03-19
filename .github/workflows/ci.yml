@@ -223,9 +223,9 @@ jobs:
       - name: "Login to Githhub Container Registry"
         run: ./scripts/docker_login_github.py
       - name: "Build BI image"
-        run: |
-          ./scripts/manage_image.py build --image-type bi
-          ./scripts/manage_image.py verify --image-type bi
+        run: ./scripts/manage_image.py build --image-type bi
+      - name: "Verify BI image"
+        run: ./scripts/manage_image.py verify --image-type bi
       - run: pip install django-environ
       - name: "Install Heroku CLI"
         run: |
