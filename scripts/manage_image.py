@@ -68,8 +68,17 @@ def run_command(command, capture_output=False, check=True):
     result = subprocess.run(command, text=True, capture_output=capture_output)
 
     if check and result.returncode != 0:
-        logger.error("Polecenie nie powiodło się (kod: %d). STDERR: %s", result.returncode, result.stderr)
-        raise subprocess.CalledProcessError(result.returncode, command, result.stdout + "\n" + result.stderr)
+        if capture_output:
+            logger.error(
+                "Polecenie nie powiodło się (kod: %d). STDOUT: %s STDERR: %s",
+                result.returncode,
+                result.stdout,
+                result.stderr,
+            )
+            raise subprocess.CalledProcessError(result.returncode, command, result.stdout + "\n" + result.stderr)
+        else:
+            logger.error("Polecenie nie powiodło się (kod: %d). ", result.returncode)
+            raise subprocess.CalledProcessError(result.returncode, command)
 
     return result
 
