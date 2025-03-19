@@ -184,8 +184,8 @@ jobs:
           target_url: "https://${{ env.HEROKU_DOMAIN }}"
           state: in_progress
           environment: "${{ env.HEROKU_APP }}"
-      - name: "Pull PROD image"
-        run: ./scripts/manage_image.py pull --image-type prod
+      - name: "Build PROD image"
+        run: ./scripts/manage_image.py build --image-type prod
       - name: "Deploy"
         run: './scripts/deploy.sh "${HEROKU_APP}"'
       - name: Update deployment status (success)

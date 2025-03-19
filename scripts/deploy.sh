@@ -33,38 +33,41 @@ if [[ "$#" -eq 0 ]]; then
 fi
 
 APP_NAME="${1}"
+echo "Deploying to app: ${APP_NAME}"
+echo "Image name: ${IMAGE_NAME}"
 
 if [[ "$(docker images -q "${IMAGE_NAME}" 2> /dev/null)" == "" ]]; then
   echo "Image missing: ${IMAGE_NAME}"
-  exit
+  exit 1
 fi
 
 HEROKU_REGISTRY_URL="registry.heroku.com/${APP_NAME}"
 
-echo "Start deploying '${IMAGE_NAME}' to '${APP_NAME}' app"
 echo "Preparing images:"
 docker tag "${IMAGE_NAME}" "${HEROKU_REGISTRY_URL}/web"
 docker build prod-docker-image \
   --build-arg "BASE_IMAGE=${IMAGE_NAME}" \
   --file=prod-docker-image/Dockerfile.release \
   --tag "${HEROKU_REGISTRY_URL}/release"
-docker tag "${IMAGE_NAME}" "${PROD_IMAGE_NAME}:${APP_NAME}"
-docker images -a
+echo ""
 
 echo "Publishing images to Heroku registry"
 docker push "${HEROKU_REGISTRY_URL}/release"
 docker push "${HEROKU_REGISTRY_URL}/web"
+echo ""
+
 echo "Start a new release in Heroku"
 heroku container:release --verbose --app "${APP_NAME}" web release
-
-DOMAIN_LIST=$(\
-  heroku domains --app "${APP_NAME}" --json \
-    | jq '.[].hostname' -r \
-    | sed "s@^@https://@g"
-  )
+echo ""
 
 echo "Pushing image to GitHub registry"
 GITHUB_REGISTRY_IMAGE_NAME="ghcr.io/klubjagiellonski/pola-backend"
 docker tag "${IMAGE_NAME}" "${GITHUB_REGISTRY_IMAGE_NAME}:${APP_NAME}"
 docker push "${GITHUB_REGISTRY_IMAGE_NAME}:${APP_NAME}"
+echo ""
+DOMAIN_LIST=$(\
+  heroku domains --app "${APP_NAME}" --json \
+    | jq '.[].hostname' -r \
+    | sed "s@^@https://@g"
+  )
 echo "App deployed: ${DOMAIN_LIST}"
