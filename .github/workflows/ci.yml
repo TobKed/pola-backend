@@ -116,7 +116,7 @@ jobs:
         run: PYTHONUNBUFFERED=1 ./scripts/pull_images.py
       - run: docker compose config
       # We dont have a cache for self-management image and we dont need to need it, so we exclude it.
-      - run: docker compose config --services | grep -v self-management | xargs echo docker compose up
+      - run: docker compose config --services | grep -v self-management | xargs docker compose up -d
       - run: ./run_manage.sh migrate
       - run: ./run_manage.sh populate_db
       - run: ./run_dbt.sh dbt deps
