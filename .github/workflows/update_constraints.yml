@@ -35,7 +35,7 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
           repository: ${{ github.event.pull_request.head.repo.full_name }}
       # Checkout again to create a branch. This is needed because the previous checkout is detached.
       - name: "Checkout Pull Request"
@@ -71,7 +71,7 @@ jobs:
       - name: "Create a comment in PR"
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           # Mergifyio is needed to trigger CI build as it is not triggered
           # by the push event when the push is done by the action
           body: |
