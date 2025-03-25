@@ -291,7 +291,6 @@ def build_image(image_type, env, prepare_buildx_cache=False):
     # but only if you have enabled the containerd image store and we cann't guarantee that.
     # See: https://docs.docker.com/build/cache/backends/
     build_command += [
-        f"--cache-to=type=registry,ref={image_name}:cache,mode=max",
         "--load",
         "--builder",
         "pola_cache",
