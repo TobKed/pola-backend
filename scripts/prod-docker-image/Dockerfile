@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1.14.0
-# check=error=true;experimental=all
+# check=error=true
+# CopyIgnoredFile is broken. It can not detect ./manage.py file, because it is excluded and added again.
 
 ARG APP_UID="50000"
 ARG APP_GID="50000"
@@ -108,7 +109,7 @@ COPY --chown=pola-backend:root --from=build-js /app/pola/static/ "/opt/pola-back
 
 COPY ./scripts/prod-docker-image/heroku-exec.sh /app/.profile.d/heroku-exec.sh
 COPY --chown=pola-backend:root ./scripts/prod-docker-image/entrypoint.sh /entrypoint
-COPY --chown=pola-backend:root ./pola/ /opt/pola-backend/
+COPY --chown=pola-backend:root ./pola/ ./manage.py /opt/pola-backend/
 RUN chmod -R g+rw "/opt/pola-backend"
 
 WORKDIR /opt/pola-backend
