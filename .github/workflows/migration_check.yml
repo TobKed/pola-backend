@@ -64,10 +64,10 @@ jobs:
       - name: Load production dump
         run: |
           set -x;
-          docker cp /tmp/latest.dump pola-backend_postgres_1:/tmp/latest.dump;
+          docker cp /tmp/latest.dump pola-backend-postgres-1:/tmp/latest.dump;
           docker exec \
             -i \
-            pola-backend_postgres_1 \
+            pola-backend-postgres-1 \
             pg_restore \
               --verbose \
               --clean \
@@ -78,7 +78,7 @@ jobs:
               -d pola_app /tmp/latest.dump || \
           docker exec \
             -i \
-            pola-backend_postgres_1 \
+            pola-backend-postgres-1 \
             pg_restore \
               --verbose \
               --clean \
