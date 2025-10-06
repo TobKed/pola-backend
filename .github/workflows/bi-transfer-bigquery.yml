@@ -2,24 +2,12 @@
 name: Transfer PostgresSQL to BigQuery
 
 on:
-  workflow_dispatch:
-    inputs:
-      heroku_app:
-        description: 'Heroku app [pola-app/pola-staging]'
-        required: true
-        default: 'pola-staging'
   workflow_call:
     inputs:
       heroku_app:
         description: 'Heroku app [pola-app/pola-staging]'
         required: true
         type: string
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'pola-bi/**'
-      - '.github/workflows/bi-transfer*.yml'
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -53,12 +41,8 @@ jobs:
 
           event_name = os.environ["GITHUB_EVENT_NAME"]
           github_env_file_path = Path(os.environ["GITHUB_ENV"])
-          if event_name == "workflow_dispatch" or event_name == "workflow_call":
-              heroku_app = os.environ["INPUT_HEROKU_APP"]
-          elif event_name == "pull_request":
-              heroku_app = "pola-staging"
-          else:
-              raise Exception(f"Unknown event: {event_name}")
+          heroku_app = os.environ["INPUT_HEROKU_APP"]
+
           if heroku_app == "pola-app":
               env_name = "prod"
           elif heroku_app == "pola-staging":

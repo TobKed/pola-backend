@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "12 5 1 * *"
   workflow_dispatch: {}
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'pola-bi/**'
+      - '.github/workflows/bi-transfer*.yml'
 
 permissions:
   id-token: write
