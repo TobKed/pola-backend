@@ -75,7 +75,7 @@ jobs:
               file.write(f"GCP_STAGING_URL=gs://{bucket_name}/{heroku_app}/{current_date}/\n")
 
         env:
-          INPUT_HEROKU_APP: ${{ github.event.inputs.heroku_app }}
+          INPUT_HEROKU_APP: ${{ inputs.heroku_app }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
       - name: "Checkout ${{ github.ref }} ( ${{ github.sha }} )"
         uses: actions/checkout@v5
