@@ -1,7 +1,11 @@
 import json
+import os
+import unittest
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from test_plus import TestCase
+from vcr import VCR
 
 from pola.company.factories import BrandFactory, CompanyFactory
 from pola.models import (
@@ -14,6 +18,8 @@ from pola.product.factories import ProductFactory
 from pola.product.models import Product
 from pola.rpc_api.tests.test_views import JsonRequestMixin
 from pola.tests.test_utils import get_dummy_image
+
+vcr = VCR(cassette_library_dir=os.path.join(os.path.dirname(__file__), "cassettes"))
 
 
 class TestGetByCodeV4(TestCase, JsonRequestMixin):
@@ -37,39 +43,22 @@ class TestGetByCodeV4(TestCase, JsonRequestMixin):
         )
         self.assertEqual(200, response.status_code)
 
+    @unittest.skipUnless(
+        settings.PRODUKTY_W_SIECI_ENABLE,
+        "Runs only when PRODUKTY_W_SIECI_ENABLE is True",
+    )
+    @vcr.use_cassette("product_5900049011829_v4.yaml", filter_headers=["X-API-KEY"])
     def test_should_return_200_when_product_without_company(self):
         p = Product(code=5900049011829)
         p.name = "test-product"
         p.save()
 
         response = self.json_request(self.url + "?device_id=TEST-DEVICE-ID&code=" + str(p.code))
+
         self.assertEqual(200, response.status_code, response.content)
         self.maxDiff = None
-        self.assertEqual(
-            {
-                'product_id': p.pk,
-                'code': '5900049011829',
-                'name': 'Tego produktu nie mamy jeszcze w bazie',
-                'card_type': 'type_grey',
-                'altText': (
-                    'Każde skanowanie jest rejestrowane. Najczęściej skanowane firmy i produkty, których nie '
-                    'mamy jeszcze w bazie, są weryfikowane w pierwszej kolejności. Nie pobieramy przy tym '
-                    'żadnych informacji o użytkowniku.\n\nJeśli chcesz zgłosić błąd lub wyrazić opinię, '
-                    'prosimy o kontakt: pola@klubjagiellonski.pl'
-                ),
-                'report': {
-                    'text': 'Bardzo prosimy o zgłoszenie nam tego produktu',
-                    'button_text': 'Zgłoś',
-                    'button_type': 'type_red',
-                },
-                'donate': {
-                    'show_button': True,
-                    'url': DEFAULT_DONATE_URL,
-                    'title': DEFAULT_DONATE_TEXT,
-                },
-            },
-            json.loads(response.content),
-        )
+        # check if company is matched automatically via Produkty w Sieci REST API
+        self.assertTrue(len(json.loads(response.content)["companies"]) > 0)
 
     def test_should_return_200_when_polish_and_known_product(self):
         c = CompanyFactory(
@@ -316,6 +305,11 @@ class TestGetByCodeV4(TestCase, JsonRequestMixin):
             json.loads(response.content),
         )
 
+    @unittest.skipUnless(
+        settings.PRODUKTY_W_SIECI_ENABLE,
+        "Runs only when PRODUKTY_W_SIECI_ENABLE is True",
+    )
+    @vcr.use_cassette("product_5900049011829_v4.yaml", filter_headers=["X-API-KEY"])
     def test_should_return_200_when_custom_donate_text_is_Set(self):
         p = Product(code=5900049011829)
         p.name = "test-product"
